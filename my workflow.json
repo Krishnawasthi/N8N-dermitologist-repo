@@ -1,0 +1,202 @@
+{
+  "name": "my workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Find Your GlowNaturals Routine",
+        "formDescription": "Answer 6 quick questions and we'll send a personalized 30-day Glow Plan to your inbox in seconds — written by Dr. Anjaneya dixit our co-founder.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name"
+            },
+            {
+              "fieldLabel": "Age",
+              "fieldType": "number"
+            },
+            {
+              "fieldLabel": "Skin Type ",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Oily"
+                  },
+                  {
+                    "option": "Dry"
+                  },
+                  {
+                    "option": "combination of both"
+                  },
+                  {
+                    "option": "Sensitive"
+                  },
+                  {
+                    "option": "Normal"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Top Concern\t",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Acne & Breakouts"
+                  },
+                  {
+                    "option": "Dullness & Pigmentation"
+                  },
+                  {
+                    "option": "Fine Lines & Aging"
+                  },
+                  {
+                    "option": "Sensitivity & Redness"
+                  },
+                  {
+                    "option": "Dark Circles"
+                  },
+                  {
+                    "option": "Uneven Tone"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Lifestyle",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Mostly Indoors"
+                  },
+                  {
+                    "option": "Lots of Sun Exposure"
+                  },
+                  {
+                    "option": "High Stress / Late Nights"
+                  },
+                  {
+                    "option": "Active / Sweaty Workouts"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "aaaf4fff-0cfb-4669-a255-dfe8379cfdc5",
+      "name": "On form submission",
+      "webhookId": "4507e417-011f-45dd-8c97-e3bf3346c6a7"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are Dr. Anjaneya Dixit, India's most respected dermatologist and the co-founder of GlowNaturals — an organic skincare brand rooted in 3,000-year-old Ayurvedic traditions reimagined with modern dermatological science. Your tone is warm, expert, deeply personal — never salesy, always like a trusted friend who happens to be world-class.\n\nA new customer just filled out our skin quiz. Here's what they shared:\n- Name: {{ $json.Name }}\n- Age: {{ $json.Age }}\n- Skin Type: {{ $json['Skin Type'] }}\n- Top Concern: {{ $json['Top Concern'] }}\n- Lifestyle: {{ $json.Lifestyle }}\n\nYour task: write them a deeply personalized welcome email and Glow Plan. Output MUST be a single, complete HTML document, fully inline-styled (no external CSS, no <link>, no <script>, no <style> blocks), Gmail-safe and Outlook-safe, max 600px wide, beautifully designed.\n\nDesign system:\n- Background: #FAF6F0 (warm cream)\n- Primary text: #1F2D2A (deep forest)\n- Accent: #2F5D50 (emerald)\n- Gold: #C9A961\n- Headings: 'Georgia, \"Times New Roman\", serif'\n- Body: 'Helvetica, Arial, sans-serif'\n- 32px section padding, soft dividers, subtle gold accent rules, 12px rounded corners\n- Use emojis sparingly — one per section heading max — for warmth, never decoration\n\nEmail structure (in this exact order, each as a clearly designed inline-styled <div> or <table> section):\n\n1. HERO — A warm personalized greeting using their first name. ONE sentence that names their specific skin story (don't repeat their inputs — interpret them). Example tone: \"Asha, skin like yours — combination, weathered by Mumbai's monsoon humidity and late-night design sprints — is more common than you think, and far more fixable than the internet would have you believe.\"\n\n2. YOUR SKIN, READ — A 3-line \"diagnosis\" paragraph that demonstrates real expertise. Mention the underlying mechanism (e.g., \"your barrier is likely compromised because…\"), what's making it worse, and one thing they probably didn't know about their own skin.\n\n3. YOUR MORNING RITUAL — 4 specific steps with subtle gold-accented numbers. Each step: name + GlowNaturals product (invent plausible names like \"Kumkumadi Dawn Drops,\" \"Neem & Niacinamide Mist,\" \"Sandalwood SPF 40\") + ONE sentence on why this step matters for *their* skin specifically.\n\n4. YOUR EVENING RITUAL — Same structure, 4 steps, different products. Mark one as the \"hero\" — the thing they should never skip.\n\n5. THE 3 LIFESTYLE LEVERS — Three small cards (use <table> or styled <div>s) with one icon/emoji each, a one-line action, and one sentence of why. Tailor to their lifestyle answer (sleep, hydration, sun exposure, stress).\n\n6. WHAT TO EXPECT — A 2-line honest timeline (Week 2 / Week 4 / Week 8) so they know it's a journey, not a quick fix.\n\n7. A PERSONAL NOTE FROM AANYA — Two warm sentences signed off \"with care, Dr. Aanya Iyer, Co-founder, GlowNaturals\". Then a soft beautiful CTA button (gold background, dark text, rounded) saying \"Begin Your Glow Plan →\".\n\n8. FOOTER — Tiny, low-contrast: \"GlowNaturals — Sourced from India's Soul. Kochi, Kerala. Reply to this email anytime — a real human reads every one.\"\n\nHard rules:\n- Output ONLY the HTML, starting with <!DOCTYPE html> and ending with </html>. NO markdown fences, NO explanation, NO preamble or postamble.\n- Every style inline. No <style> blocks.\n- <table> for layout where Gmail compatibility matters.\n- Make it feel HUMAN. Specific. Like Aanya stayed up late to write this for THEM personally. The reader should feel SEEN.\n\nGenerate the email now."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "1072c374-0127-4417-ab9e-0f0cf5317952",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "UKkrbQPxwHQTbjts",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('On form submission').item.json.Email }}",
+        "subject": "={{ $('On form submission').item.json.Name }}, your personalized Glow Plan is ready ✨",
+        "message": "={{ $json.content.parts[0].text }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        560,
+        0
+      ],
+      "id": "33ecc651-26b6-464e-8337-d38ae73a03f0",
+      "name": "Send a message",
+      "webhookId": "a1ff6c46-5437-461d-af73-a8ff8f90cd66",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "4DPY3aTTKTTZFJzE",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": -1,
+    "availableInMCP": false
+  },
+  "versionId": "632de5dc-7d63-4ef9-92cd-039988de6281",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3429f8c9e1e63aa19bd1feba3224044049a661d11523f1b14104f44dc0971a2b"
+  },
+  "id": "TnunbG95S7Q4XhOc",
+  "tags": []
+}
